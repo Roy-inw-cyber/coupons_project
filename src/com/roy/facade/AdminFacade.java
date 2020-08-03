@@ -19,6 +19,7 @@ public class AdminFacade extends ClientFacade {
 		super(customerDao, couponsDao, companiesDao);
 	}
 
+	// adding a new company, if the chosen name and email does not exist in db
 	public void addCompany(Company company) throws CouponSystemException {
 		if (super.companiesDao.isCompanyNameExists(company.getName())) {
 			throw new CouponSystemException(ErrorType.NAME_ALREADY_EXISTS,
@@ -31,9 +32,10 @@ public class AdminFacade extends ClientFacade {
 		super.companiesDao.addCompany(company);
 	}
 
+	// updating an existing company, if the updated values are not id or name
 	public void updateCompany(Company company) throws CouponSystemException {
 		Company currentCompanyInDb = super.companiesDao.getOneCompany(company.getId());
-		if(currentCompanyInDb != null) {
+		if (currentCompanyInDb != null) {
 			if (company.getId() != currentCompanyInDb.getId()) {
 				throw new CouponSystemException(ErrorType.INVALID_UPDATE,
 						"error while running updateCompany in AdminFacade, field 'id' is not allowed to be updated");
@@ -49,6 +51,7 @@ public class AdminFacade extends ClientFacade {
 		}
 	}
 
+	// deleting a company and all it's dependencies
 	public void deleteCompany(int companyID) throws CouponSystemException {
 		boolean isCompanyExists = super.companiesDao.getOneCompany(companyID) != null;
 		if (isCompanyExists) {
@@ -66,6 +69,7 @@ public class AdminFacade extends ClientFacade {
 		return super.companiesDao.getOneCompany(companyID);
 	}
 
+	// adding a new customer, if the chosen email does not exist in db
 	public void addCustomer(Customer customer) throws CouponSystemException {
 		if (super.customersDao.isCustomerEmailExists(customer.getEmail())) {
 			throw new CouponSystemException(ErrorType.EMAIL_ALREADY_EXISTS,
@@ -74,9 +78,10 @@ public class AdminFacade extends ClientFacade {
 		super.customersDao.addCustomer(customer);
 	}
 
+	// updating an existing customer, if the updated values are not id
 	public void updateCustomer(Customer customer) throws CouponSystemException {
 		Customer currentCustomerInDb = super.customersDao.getOneCustomer(customer.getId());
-		if(currentCustomerInDb != null) {
+		if (currentCustomerInDb != null) {
 			if (customer.getId() != currentCustomerInDb.getId()) {
 				throw new CouponSystemException(ErrorType.INVALID_UPDATE,
 						"error while running updateCustomer in AdminFacade, field 'id' is not allowed to be updated");
@@ -86,9 +91,10 @@ public class AdminFacade extends ClientFacade {
 			throw new CouponSystemException(ErrorType.INVALID_UPDATE,
 					"error while running updateCustomer in AdminFacade, customer id does not exist in the db");
 		}
-		
+
 	}
 
+	// deleting a customer and all it's dependencies
 	public void deleteCustomer(int customerID) throws CouponSystemException {
 		super.couponsDao.deletePurchasedCouponsByCustomerID(customerID);
 		super.customersDao.deleteCustomer(customerID);

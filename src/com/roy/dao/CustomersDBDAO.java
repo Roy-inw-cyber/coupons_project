@@ -29,9 +29,14 @@ public class CustomersDBDAO implements CustomersDAO {
 			connection = ConnectionPool.getInstance().getConnection();
 			
 			String sqlStatement= "select * from customers where email = ? and password = ?";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setString(1, email);
 			preparedStatement.setString(2, password);
+			
 			result = preparedStatement.executeQuery();
 			
 			if(result.next()) {
@@ -42,6 +47,7 @@ public class CustomersDBDAO implements CustomersDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_GET_ERROR, "error running method isCustomerExists in CustomersDBDAO");
 		} finally {
 			if(connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement, result);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -60,7 +66,11 @@ public class CustomersDBDAO implements CustomersDAO {
 			
 			String sqlStatement= "insert into customers (first_name, last_name, email, password) "
 					+ "values (?,?,?,?)";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setString(1, customer.getFirstName());
 			preparedStatement.setString(2, customer.getLastName());
 			preparedStatement.setString(3, customer.getEmail());
@@ -72,6 +82,7 @@ public class CustomersDBDAO implements CustomersDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_SET_ERROR, "error running method addCustomer in CustomersDBDAO");
 		} finally {
 			if(connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -88,7 +99,11 @@ public class CustomersDBDAO implements CustomersDAO {
 			connection = ConnectionPool.getInstance().getConnection();
 			
 			String sqlStatement= "update customers set first_name=?, last_name=?, email=?, password=? where id=?";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setString(1, customer.getFirstName());
 			preparedStatement.setString(2, customer.getLastName());
 			preparedStatement.setString(3, customer.getEmail());
@@ -101,6 +116,7 @@ public class CustomersDBDAO implements CustomersDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_SET_ERROR, "error running method updateCustomer in CustomersDBDAO");
 		} finally {
 			if(connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -117,7 +133,11 @@ public class CustomersDBDAO implements CustomersDAO {
 			connection = ConnectionPool.getInstance().getConnection();
 			
 			String sqlStatement= "delete from customers where id=?";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setInt(1, customerID);
 			preparedStatement.executeUpdate();
 			
@@ -125,6 +145,7 @@ public class CustomersDBDAO implements CustomersDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_SET_ERROR, "error running method deleteCustomer in CustomersDBDAO");
 		} finally {
 			if(connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -140,11 +161,14 @@ public class CustomersDBDAO implements CustomersDAO {
 		ArrayList<Customer> customersList = new ArrayList<Customer>();
 
 		try {
-			// get connection from the pool
+			//get connection from the pool
 			connection = ConnectionPool.getInstance().getConnection();
 
 			String sqlStatement = "select * from customers";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
 			result = preparedStatement.executeQuery();
 
 			if(!result.next()) {
@@ -152,6 +176,7 @@ public class CustomersDBDAO implements CustomersDAO {
 			}
 			
 			do {
+				//extracting the data from db into a list
 				customersList.add(extractCustomerFromResult(result));
 			} while(result.next());
 
@@ -159,6 +184,7 @@ public class CustomersDBDAO implements CustomersDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_GET_ERROR, "error running method getAllCustomers in CustomersDBDAO");
 		} finally {
 			if (connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement, result);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -178,8 +204,13 @@ public class CustomersDBDAO implements CustomersDAO {
 			connection = ConnectionPool.getInstance().getConnection();
 
 			String sqlStatement = "select * from customers where id = ?";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setInt(1, customerID);
+			
 			result = preparedStatement.executeQuery();
 
 			if (result.next()) {
@@ -190,6 +221,7 @@ public class CustomersDBDAO implements CustomersDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_GET_ERROR, "error running method getOneCustomer in CustomersDBDAO");
 		} finally {
 			if (connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement, result);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -204,12 +236,17 @@ public class CustomersDBDAO implements CustomersDAO {
 		ResultSet result = null;
 
 		try {
-			// get connection from the pool
+			//get connection from the pool
 			connection = ConnectionPool.getInstance().getConnection();
 
 			String sqlStatement = "select * from customers where email = ?";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setString(1, email);
+			
 			result = preparedStatement.executeQuery();
 
 			if (result.next()) {
@@ -220,6 +257,7 @@ public class CustomersDBDAO implements CustomersDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_GET_ERROR, "error running method isCustomerEmailExists in CustomersDBDAO");
 		} finally {
 			if (connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement, result);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -234,13 +272,18 @@ public class CustomersDBDAO implements CustomersDAO {
 		ResultSet result = null;
 
 		try {
-			// get connection from the pool
+			//get connection from the pool
 			connection = ConnectionPool.getInstance().getConnection();
 
 			String sqlStatement = "select id from customers where email = ? and password = ?";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setString(1, email);
 			preparedStatement.setString(2, password);
+			
 			result = preparedStatement.executeQuery();
 
 			if (result.next()) {
@@ -251,6 +294,7 @@ public class CustomersDBDAO implements CustomersDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_GET_ERROR, "error running method getCustomerIdByCredentials in CustomersDBDAO");
 		} finally {
 			if (connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement, result);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -261,12 +305,13 @@ public class CustomersDBDAO implements CustomersDAO {
 	private Customer extractCustomerFromResult(ResultSet result) throws CouponSystemException{
 		Customer customer= null;
 		try {
-		customer = new Customer();
-		customer.setId(result.getInt("id"));
-		customer.setFirstName(result.getString("first_name"));
-		customer.setLastName(result.getNString("last_name"));
-		customer.setEmail(result.getString("email"));
-		customer.setPassword(result.getString("password"));
+			//extracting the data from db into a Customer object
+			customer = new Customer();
+			customer.setId(result.getInt("id"));
+			customer.setFirstName(result.getString("first_name"));
+			customer.setLastName(result.getNString("last_name"));
+			customer.setEmail(result.getString("email"));
+			customer.setPassword(result.getString("password"));
 		customer.setCoupons(couponsDBDAO.getAllCouponsByCustomerID(result.getInt("id")));
 		} catch (Exception exception) {
 			throw new CouponSystemException(exception, ErrorType.DB_SET_ERROR, "error running method extractCustomerFromResult in CustomersDBDAO");

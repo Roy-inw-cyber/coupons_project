@@ -23,7 +23,7 @@ public class ConnectionPool {
     }
 
     private ConnectionPool(){
-        connections = new HashSet<>(10);
+        connections = new HashSet<Connection>(MAX_CONNECTIONS);
         try{
             for (int i=0; i<MAX_CONNECTIONS; i++){
                 connections.add(generateConnection());

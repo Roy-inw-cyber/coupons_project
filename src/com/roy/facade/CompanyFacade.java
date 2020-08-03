@@ -29,6 +29,7 @@ public class CompanyFacade extends ClientFacade {
 		return isValidLogin;
 	}
 	
+	// adding a new coupon, if the chosen title does not exist in db
 	public void addCoupon(Coupon coupon) throws CouponSystemException {
 		if (super.couponsDao.isCouponTitleExistsByCompanyID(coupon.getTitle(), companyID)) {
 			throw new CouponSystemException(ErrorType.NAME_ALREADY_EXISTS,
@@ -37,6 +38,7 @@ public class CompanyFacade extends ClientFacade {
 		super.couponsDao.addCoupon(coupon);
 	}
 	
+	// updating an existing coupon, if the updated values are not coupon id or company id
 	public void updateCoupon(Coupon coupon) throws CouponSystemException {
 		Coupon currentCouponInDb = super.couponsDao.getOneCoupon(coupon.getId());
 		if(currentCouponInDb != null) {
@@ -55,6 +57,7 @@ public class CompanyFacade extends ClientFacade {
 		}
 	}
 	
+	// deleting a coupon and all it's dependencies
 	public void deleteCoupon(Coupon coupon) throws CouponSystemException {
 		super.couponsDao.deletePurchasedCouponsByCouponID(coupon.getId());
 		super.couponsDao.deleteCoupon(coupon.getId());
@@ -64,10 +67,12 @@ public class CompanyFacade extends ClientFacade {
 		return super.couponsDao.getAllCouponsByCompanyID(companyID);
 	}
 	
+	// get company coupons by chosen category
 	public ArrayList<Coupon> getCompanyCoupons(Category category) throws CouponSystemException{
 		return super.couponsDao.getAllCouponsByCompanyIDAndCategoryID(companyID, category);
 	}
 	
+	// get company coupons by max price
 	public ArrayList<Coupon> getCompanyCoupons(double maxPrice) throws CouponSystemException{
 		return super.couponsDao.getAllCouponsByCompanyIDAndMaxPrice(companyID, maxPrice);
 	}

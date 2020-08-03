@@ -26,13 +26,18 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		ResultSet result = null;
 
 		try {
-			// get connection from the pool
+			//get connection from the pool
 			connection = ConnectionPool.getInstance().getConnection();
-
+			
 			String sqlStatement = "select * from companies where email = ? and password = ?";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setString(1, email);
 			preparedStatement.setString(2, password);
+			
 			result = preparedStatement.executeQuery();
 
 			if (result.next()) {
@@ -43,6 +48,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_GET_ERROR, "error running method isCompanyExists in CompaniesDBDAO");
 		} finally {
 			if (connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement, result);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -57,13 +63,18 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		ResultSet result = null;
 
 		try {
-			// get connection from the pool
+			//get connection from the pool
 			connection = ConnectionPool.getInstance().getConnection();
 
 			String sqlStatement = "select id from companies where email = ? and password = ?";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setString(1, email);
 			preparedStatement.setString(2, password);
+			
 			result = preparedStatement.executeQuery();
 
 			if (result.next()) {
@@ -74,6 +85,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_GET_ERROR, "error running method getCompanyIdByCredentials in CompaniesDBDAO");
 		} finally {
 			if (connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement, result);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -87,11 +99,16 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			// get connection from the pool
+			//get connection from the pool
 			connection = ConnectionPool.getInstance().getConnection();
 
+			//company id is defined as primary key and auto increment
 			String sqlStatement = "insert into companies (name, email, password) " + "values (?,?,?)";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setString(1, company.getName());
 			preparedStatement.setString(2, company.getEmail());
 			preparedStatement.setString(3, company.getPassword());
@@ -102,6 +119,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_SET_ERROR, "error running method addCompany in CompaniesDBDAO");
 		} finally {
 			if (connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -118,16 +136,22 @@ public class CompaniesDBDAO implements CompaniesDAO {
 			connection = ConnectionPool.getInstance().getConnection();
 
 			String sqlStatement = "update companies set email=?, password=? where id=?";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setString(1, company.getEmail());
 			preparedStatement.setString(2, company.getPassword());
 			preparedStatement.setInt(3, company.getId());
+			
 			preparedStatement.executeUpdate();
 
 		} catch (Exception exception) {
 			throw new CouponSystemException(exception, ErrorType.DB_SET_ERROR, "error running method updateCompany in CompaniesDBDAO");
 		} finally {
 			if (connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -140,11 +164,15 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		PreparedStatement preparedStatement = null;
 
 		try {
-			// get connection from the pool
+			//get connection from the pool
 			connection = ConnectionPool.getInstance().getConnection();
 
 			String sqlStatement = "delete from companies where id=?";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setInt(1, companyID);
 			preparedStatement.executeUpdate();
 
@@ -152,6 +180,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_SET_ERROR, "error running method deleteCompany in CompaniesDBDAO");
 		} finally {
 			if (connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -167,11 +196,14 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		ArrayList<Company> companiesList = new ArrayList<Company>();
 
 		try {
-			// get connection from the pool
+			//get connection from the pool
 			connection = ConnectionPool.getInstance().getConnection();
 
 			String sqlStatement = "select * from companies";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
 			result = preparedStatement.executeQuery();
 
 			if(!result.next()) {
@@ -186,6 +218,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_GET_ERROR, "error running method getAllCompanies in CompaniesDBDAO");
 		} finally {
 			if (connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement, result);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -201,12 +234,17 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		Company company = null;
 
 		try {
-			// get connection from the pool
+			//get connection from the pool
 			connection = ConnectionPool.getInstance().getConnection();
 
 			String sqlStatement = "select * from companies where id = ?";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setInt(1, companyID);
+			
 			result = preparedStatement.executeQuery();
 
 			if (result.next()) {
@@ -217,6 +255,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_GET_ERROR, "error running method getOneCompany in CompaniesDBDAO");
 		} finally {
 			if (connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement, result);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -227,6 +266,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 	private Company extractCompanyFromResult(ResultSet result) throws CouponSystemException{
 		Company company = null;
 		try {
+		//extracting the data from db into a Company object
 		company = new Company();
 		company.setId(result.getInt("id"));
 		company.setName(result.getString("name"));
@@ -245,12 +285,17 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		ResultSet result = null;
 
 		try {
-			// get connection from the pool
+			//get connection from the pool
 			connection = ConnectionPool.getInstance().getConnection();
 
 			String sqlStatement = "select * from companies where name = ?";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setString(1, name);
+			
 			result = preparedStatement.executeQuery();
 
 			if (result.next()) {
@@ -261,6 +306,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_GET_ERROR, "error running method isCompanyNameExists in CompaniesDBDAO");
 		} finally {
 			if (connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement, result);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}
@@ -274,12 +320,17 @@ public class CompaniesDBDAO implements CompaniesDAO {
 		ResultSet result = null;
 
 		try {
-			// get connection from the pool
+			//get connection from the pool
 			connection = ConnectionPool.getInstance().getConnection();
 
 			String sqlStatement = "select * from companies where email = ?";
+			
+			//combine between the syntax and the connection
 			preparedStatement = connection.prepareStatement(sqlStatement);
+			
+			//replace the question marks in the statement above with the relevant data
 			preparedStatement.setString(1, email);
+			
 			result = preparedStatement.executeQuery();
 
 			if (result.next()) {
@@ -290,6 +341,7 @@ public class CompaniesDBDAO implements CompaniesDAO {
 			throw new CouponSystemException(exception, ErrorType.DB_GET_ERROR, "error running method isCompanyEmailExists in CompaniesDBDAO");
 		} finally {
 			if (connection != null) {
+				//closing all resources
 				ConnectionPool.closeResources(preparedStatement, result);
 				ConnectionPool.getInstance().restoreConnection(connection);
 			}

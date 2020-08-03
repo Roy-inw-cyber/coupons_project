@@ -29,6 +29,11 @@ private int customerID;
 		return isValidLogin;
 	}
 	
+	/* purchasing a new coupon and updating it's amount in db, if:
+	 * the coupon wasn't already purchased
+	 * the coupon is in stock
+	 * the coupon is not expired
+	 */
 	public void purchaseCoupon(Coupon coupon) throws CouponSystemException {
 		if (super.couponsDao.isCouponExists(coupon.getId())) {
 			if (super.couponsDao.isAlreadyPurchasedCoupon(coupon.getId(), customerID)) {
@@ -46,7 +51,7 @@ private int customerID;
 			super.couponsDao.addCouponPurchase(customerID, coupon.getId());
 			super.couponsDao.decreaseCouponAmount(coupon.getId());
 		} else {
-			throw new CouponSystemException(ErrorType.EXPIRED,
+			throw new CouponSystemException(ErrorType.INVALID_UPDATE,
 					"error while running purchaseCoupon in CustomerFacade, coupon id does not exist");
 		}
 	}
@@ -55,10 +60,12 @@ private int customerID;
 		return super.couponsDao.getAllCouponsByCustomerID(customerID);
 	}
 	
+	// get customer coupons by chosen category
 	public ArrayList<Coupon> getCustomerCoupons(Category category) throws CouponSystemException{
 		return super.couponsDao.getAllCouponsByCustomerIDAndCategoryID(customerID, category);
 	}
 	
+	// get customer coupons by max price
 	public ArrayList<Coupon> getCustomerCoupons(double maxPrice) throws CouponSystemException{
 		return super.couponsDao.getAllCouponsByCustomerIDAndMaxPrice(customerID, maxPrice);
 	}
